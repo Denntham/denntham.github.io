@@ -346,7 +346,7 @@
 </template>
 
 <script setup>
-import avatar from '~/assets/images/avatar.jpg';
+import avatar from '~/assets/images/avatar.jpg?url';
 import brandLogo from '~/assets/images/logo_light.svg?url';
 import brandLogoDark from '~/assets/images/logo_dark.svg?url';
 import DarkModeToggle from '~/components/DarkModeToggle.vue';
