@@ -346,11 +346,12 @@
 </template>
 
 <script setup>
-import avatar from '/avatar.jpg';
 import brandLogo from '~/assets/images/logo_light.svg?url';
 import brandLogoDark from '~/assets/images/logo_dark.svg?url';
 import DarkModeToggle from '~/components/DarkModeToggle.vue';
 import RotatingTagline from '~/components/RotatingTagline.vue';
+
+const avatar = '/avatar.jpg';
 
 // SEO Meta
 useHead({
