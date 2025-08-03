@@ -36,6 +36,10 @@ export default {
 		},
 	},
 
+	vite: {
+		assetsInclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.gif', '**/*.webp'],
+	},
+
 	// GitHub Pages deployment config
 	router: {
 		base: process.env.NODE_ENV === 'production' ? '/' : '/',
@@ -46,7 +50,7 @@ export default {
 	css: ['@/assets/css/main.css'],
 
 	// Modules
-	modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo', ],
+	modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo'],
 
 	// Tailwind CSS configuration
 	tailwindcss: {
@@ -83,7 +87,7 @@ export default {
 	// Static generation configuration
 	generate: {
 		fallback: '404.html', // This creates 404.html for GitHub Pages
-		routes: ['/'],
+		routes: ['/', '/avatar.png'],
 	},
 
 	// Runtime config

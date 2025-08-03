@@ -351,7 +351,7 @@ import brandLogoDark from '~/assets/images/logo_dark.svg?url';
 import DarkModeToggle from '~/components/DarkModeToggle.vue';
 import RotatingTagline from '~/components/RotatingTagline.vue';
 
-const avatar = '/avatar.jpg';
+const avatar = '/avatar.png';
 
 // SEO Meta
 useHead({
