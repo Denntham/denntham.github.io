@@ -1,4 +1,3 @@
-<!-- pages/[...slug].vue -->
 <template>
 	<div
 		class="min-h-screen flex items-center justify-center px-6"

@@ -1,4 +1,3 @@
-<!-- components/MouseSpotlight.vue -->
 <template>
 	<div class="mouse-effects-container">
 		<!-- Spotlight effect -->

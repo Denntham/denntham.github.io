@@ -27,6 +27,11 @@ export default {
 			link: [
 				{ rel: 'icon', type: 'image/svg+xml', href: '/icon_16_light.svg' },
 				{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+				{
+					rel: 'stylesheet',
+					type: 'text/css',
+					href: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css',
+				},
 			],
 		},
 	},
@@ -41,7 +46,7 @@ export default {
 	css: ['@/assets/css/main.css'],
 
 	// Modules
-	modules: ['@nuxtjs/tailwindcss'],
+	modules: ['@nuxtjs/tailwindcss', 'nuxt-svgo', ],
 
 	// Tailwind CSS configuration
 	tailwindcss: {

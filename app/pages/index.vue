@@ -1,4 +1,3 @@
-<!-- pages/index.vue -->
 <template>
 	<div class="min-h-screen" style="background-color: var(--color-background)">
 		<!-- Mouse Effects -->
@@ -14,90 +13,147 @@
 			<div class="max-w-6xl mx-auto px-6 py-4">
 				<div class="flex justify-between items-center">
 					<NuxtLink to="/" class="text-xl font-semibold" style="color: var(--color-text)">
-						<img :src="brandLogo" alt="brand" class="brand-image" />
+						<img
+							:src="currentLogo"
+							alt="Denntham"
+							:class="{ 'logo-fade': isLogoChanging }" />
 					</NuxtLink>
 
+					<!-- Desktop Navigation -->
 					<div class="hidden md:flex space-x-8 items-center">
 						<a href="#home" class="nav-link">Home</a>
 						<a href="#about" class="nav-link">About</a>
 						<a href="#skills" class="nav-link">Skills</a>
 						<a href="#experience" class="nav-link">Experience</a>
 						<a href="#contact" class="nav-link">Contact</a>
-						<DarkModeToggle />
+						<DarkModeToggle ref="darkModeToggle" />
 					</div>
 
 					<!-- Mobile menu -->
 					<div class="md:hidden flex items-center space-x-2">
-						<DarkModeToggle />
+						<DarkModeToggle ref="darkModeToggle" />
 						<button
 							@click="mobileMenuOpen = !mobileMenuOpen"
-							style="color: var(--color-text)">
-							<Icon name="heroicons:bars-3" class="w-6 h-6" />
+							:class="{ 'mobile-menu-open': mobileMenuOpen }"
+							style="color: var(--color-text)"
+							aria-label="Toggle mobile menu">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="size-6">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+							</svg>
 						</button>
 					</div>
 				</div>
 
 				<!-- Mobile menu dropdown -->
-				<div
-					v-show="mobileMenuOpen"
-					class="md:hidden mt-4 pb-4"
-					style="border-top: 1px solid var(--color-border)">
-					<div class="flex flex-col space-y-4 mt-4">
-						<a href="#home" class="nav-link" @click="mobileMenuOpen = false">Home</a>
-						<a href="#about" class="nav-link" @click="mobileMenuOpen = false">About</a>
-						<a href="#skills" class="nav-link" @click="mobileMenuOpen = false"
-							>Skills</a
-						>
-						<a href="#experience" class="nav-link" @click="mobileMenuOpen = false"
-							>Experience</a
-						>
-						<a href="#contact" class="nav-link" @click="mobileMenuOpen = false"
-							>Contact</a
-						>
+				<Transition name="mobile-menu">
+					<div
+						v-show="mobileMenuOpen"
+						class="md:hidden mt-4 pb-4"
+						style="border-top: 1px solid var(--color-border)">
+						<div class="flex flex-col space-y-4 mt-4">
+							<a href="#home" class="nav-link" @click="mobileMenuOpen = false"
+								>Home</a
+							>
+							<a href="#about" class="nav-link" @click="mobileMenuOpen = false"
+								>About</a
+							>
+							<a href="#skills" class="nav-link" @click="mobileMenuOpen = false"
+								>Skills</a
+							>
+							<a href="#experience" class="nav-link" @click="mobileMenuOpen = false"
+								>Experience</a
+							>
+							<a href="#contact" class="nav-link" @click="mobileMenuOpen = false"
+								>Contact</a
+							>
+						</div>
 					</div>
-				</div>
+				</Transition>
 			</div>
 		</nav>
 
 		<!-- Hero Section -->
 		<section
 			id="home"
-			class="hero-section min-h-screen flex items-center justify-center relative overflow-hidden">
-			<div class="absolute inset-0 hero-gradient"></div>
+			class="hero-section min-h-screen flex items-center justify-center relative overflow-hidden"
+			:class="{ 'hero-dark': isDarkMode }">
+			<div
+				class="absolute inset-0 hero-gradient"
+				:class="{ 'hero-gradient-dark': isDarkMode }"></div>
+
+			<!-- Background Pattern Overlay -->
+			<div
+				class="absolute inset-0 hero-pattern"
+				:class="{ 'hero-pattern-dark': isDarkMode }"></div>
 
 			<div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
-				<div class="space-y-8">
-					<div class="space-y-6">
-						<h1 class="hero-title text-5xl md:text-7xl font-bold leading-tight pb-8">
-							Hey there! I'm Dennis,
-						</h1>
-						<p
-							class="hero-subtitle text-xl md:text-3xl leading-relaxed max-w-4xl mx-auto">
-							a software engineer who enjoys building things that actually work.
-						</p>
-						<p class="hero-description text-lg md:text-xl max-w-3xl mx-auto opacity-90">
-							Currently focused on full-stack development and figuring out how to make
-							systems scale without breaking.
-						</p>
+				<div class="grid lg:grid-cols-10 gap-8 items-center">
+					<!-- Content Column -->
+					<div class="text-left lg:col-span-7 space-y-8">
+						<div class="space-y-8">
+							<p class="hero-greeting text-xl md:text-2xl font-medium">Hey there!</p>
+							<h1 class="hero-name text-5xl md:text-7xl font-bold leading-tight">
+								I'm Dennis
+							</h1>
+							<RotatingTagline :tags="tagline" />
+							<p class="hero-description text-lg md:text-xl opacity-90 max-w-2xl">
+								Currently focused on development and architecting web applications
+								and enterprise systems.
+							</p>
+						</div>
+						<div
+							class="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+							<a href="mailto:dennthamm@proton.me" class="btn-primary-hero">
+								<span>Let's connect</span>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="size-6">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+								</svg>
+							</a>
+						</div>
 					</div>
 
-					<div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-						<!-- Buttons removed as requested -->
+					<!-- Image Column -->
+					<div class="lg:col-span-3 flex justify-center lg:justify-end">
+						<div class="hero-image-placeholder">
+							<div class="image-placeholder-content">
+								<img :src="avatar" class="rounded-full" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Animated Scroll Indicator -->
-			<div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-				<div class="scroll-indicator" @click="scrollToAbout">
-					<div class="scroll-arrow">
-						<Icon
-							name="heroicons:chevron-down"
-							class="w-6 h-6"
-							style="color: var(--color-text-hero)" />
-					</div>
-					<div class="scroll-text">scroll down</div>
-				</div>
+			<div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-6">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+				</svg>
 			</div>
 		</section>
 
@@ -110,36 +166,28 @@
 
 				<div class="prose-custom space-y-6 text-left max-w-3xl mx-auto">
 					<p>
-						I've been writing code professionally for about 3 years now, mostly building
-						web applications and APIs. Started with smaller projects and gradually
-						worked my way up to systems handling thousands of users.
+						I've been buiding software professionally for about 3 years, specializing in
+						web applications and API development.My journey started with smaller
+						projects and evolved into architecting systems that handle complex,
+						high-traffic scenarios.
 					</p>
 					<p>
 						These days I spend most of my time with JavaScript/TypeScript, Node.js, and
-						React, plus whatever database makes sense for the project. I've done a fair
-						bit of system migrations and API development, which taught me that legacy
-						code is both a nightmare and a great teacher.
+						React, plus whatever database that match project requirements. Through
+						extensive work on system migrations and API development, which taught me
+						that legacy code is both a nightmare and a great teacher.
 					</p>
 					<p>
-						Currently learning Java and Spring Boot because, well, enterprise
-						development is a thing and I figure I should probably understand it. Also
-						getting into system design patterns - turns out there's more to scaling than
-						just "throw it on AWS and hope for the best."
-					</p>
-					<p>
-						I like working on stuff that people actually use. There's something
-						satisfying about building a feature and knowing real humans are clicking on
-						it somewhere.
+						I like working on software systems that creates real impact. There's genuine
+						satisfaction in developing features that enhance user experiences and drive
+						business outcomes across diverse industries.
 					</p>
 				</div>
 			</div>
 		</section>
 
 		<!-- Skills Section -->
-		<section
-			id="skills"
-			class="section-seamless py-36"
-			style="background-color: var(--color-surface)">
+		<section id="skills" class="section-seamless py-36">
 			<div class="max-w-6xl mx-auto px-6">
 				<h2
 					class="section-title text-4xl font-bold text-center mb-16"
@@ -147,74 +195,50 @@
 					My Skills
 				</h2>
 
-				<div class="grid lg:grid-cols-2 gap-12">
+				<div class="grid lg:grid-cols-2 gap-16">
 					<!-- Left Column -->
-					<div class="space-y-8">
-						<!-- Languages -->
+					<div class="space-y-12">
+						<!-- Frontend & Mobile -->
 						<div class="skill-category">
 							<h3 class="skill-category-title">Languages</h3>
-							<div class="tech-grid">
-								<TechBadge
-									v-for="tech in languages"
+							<div class="tech-logo-grid">
+								<TechLogo
+									v-for="tech in languageTech"
 									:key="tech.name"
 									:tech="tech" />
 							</div>
 						</div>
 
-						<!-- Backend and APIs -->
+						<!-- Data & Tools -->
 						<div class="skill-category">
-							<h3 class="skill-category-title">Backend & APIs</h3>
-							<div class="tech-grid">
-								<TechBadge v-for="tech in backend" :key="tech.name" :tech="tech" />
-							</div>
-						</div>
-
-						<!-- Frontend and Mobile -->
-						<div class="skill-category">
-							<h3 class="skill-category-title">Frontend & Mobile</h3>
-							<div class="tech-grid">
-								<TechBadge v-for="tech in frontend" :key="tech.name" :tech="tech" />
+							<h3 class="skill-category-title">Frontend</h3>
+							<div class="tech-logo-grid">
+								<TechLogo
+									v-for="tech in frontendTech"
+									:key="tech.name"
+									:tech="tech" />
 							</div>
 						</div>
 					</div>
 
 					<!-- Right Column -->
-					<div class="space-y-8">
-						<!-- Databases -->
+					<div class="space-y-12">
+						<!-- Backend & APIs -->
 						<div class="skill-category">
-							<h3 class="skill-category-title">Databases</h3>
-							<div class="tech-grid">
-								<TechBadge
-									v-for="tech in databases"
+							<h3 class="skill-category-title">Backend & Databases</h3>
+							<div class="tech-logo-grid">
+								<TechLogo
+									v-for="tech in backendTech"
 									:key="tech.name"
 									:tech="tech" />
 							</div>
 						</div>
 
-						<!-- Cloud and Infrastructure -->
+						<!-- Cloud & Infrastructure -->
 						<div class="skill-category">
-							<h3 class="skill-category-title">Cloud & Infrastructure</h3>
-							<div class="tech-grid">
-								<TechBadge v-for="tech in cloud" :key="tech.name" :tech="tech" />
-							</div>
-						</div>
-
-						<!-- Data and Analytics -->
-						<div class="skill-category">
-							<h3 class="skill-category-title">Data & Analytics</h3>
-							<div class="tech-grid">
-								<TechBadge
-									v-for="tech in dataAnalytics"
-									:key="tech.name"
-									:tech="tech" />
-							</div>
-						</div>
-
-						<!-- Tools and Others -->
-						<div class="skill-category">
-							<h3 class="skill-category-title">Tools & Others</h3>
-							<div class="tech-grid">
-								<TechBadge v-for="tech in tools" :key="tech.name" :tech="tech" />
+							<h3 class="skill-category-title">Infrastructure & Tools</h3>
+							<div class="tech-logo-grid">
+								<TechLogo v-for="tech in infraTech" :key="tech.name" :tech="tech" />
 							</div>
 						</div>
 					</div>
@@ -245,10 +269,7 @@
 		</section>
 
 		<!-- Contact Section -->
-		<section
-			id="contact"
-			class="section-seamless py-36"
-			style="background-color: var(--color-surface)">
+		<section id="contact" class="section-seamless py-36">
 			<div class="max-w-4xl mx-auto px-6 text-center">
 				<h2 class="section-title text-4xl font-bold mb-8" style="color: var(--color-text)">
 					Let's Connect
@@ -257,14 +278,13 @@
 					class="text-xl mb-12 max-w-2xl mx-auto"
 					style="color: var(--color-text-secondary)">
 					I'm always excited to chat about code, systems, and whatever interesting
-					challenges you're tackling. Got a cool project you're working on? Want to talk
-					shop about the latest tech? Or maybe just looking to connect? Drop me a line -
-					I'd love to hear from you!
+					challenges you're tackling. Drop me a line if you want to talk shop, explore
+					collaboration possibilities, or just say hi.
 				</p>
 
 				<div class="flex justify-center mb-8">
 					<a href="mailto:dennthamm@proton.me" class="btn-primary-large">
-						<span>drop me a line</span>
+						<span>Send me an email</span>
 					</a>
 				</div>
 
@@ -280,7 +300,6 @@
 							target="_blank"
 							class="social-icon"
 							aria-label="GitHub">
-							<!-- <Icon name="mdi:github" class="w-6 h-6" /> -->
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2rem"
@@ -310,10 +329,6 @@
 						</a>
 					</div>
 				</div>
-
-				<p class="text-sm" style="color: var(--color-text-secondary)">
-					Response time: As soon as possible
-				</p>
 			</div>
 		</section>
 
@@ -322,8 +337,7 @@
 			<div class="max-w-6xl mx-auto px-6 py-12">
 				<div class="footer-bottom">
 					<p class="footer-copyright">
-						© {{ currentYear }} Denntham. Built with Nuxt.js and deployed on GitHub
-						Pages.
+						© {{ currentYear }} Denntham. All rights reserved.
 					</p>
 				</div>
 			</div>
@@ -332,7 +346,11 @@
 </template>
 
 <script setup>
-import brandLogo from '~/assets/images/logo_dark.svg';
+import avatar from '~/assets/images/avatar.jpg';
+import brandLogo from '~/assets/images/logo_light.svg?url';
+import brandLogoDark from '~/assets/images/logo_dark.svg?url';
+import DarkModeToggle from '~/components/DarkModeToggle.vue';
+import RotatingTagline from '~/components/RotatingTagline.vue';
 
 // SEO Meta
 useHead({
@@ -351,7 +369,8 @@ useHead({
 		{ property: 'og:title', content: 'Dennis - Software Engineer' },
 		{
 			property: 'og:description',
-			content: 'Software engineer who enjoys building things that actually work.',
+			content:
+				'Full-stack software engineer who enjoys building web applications and backend systems.',
 		},
 		{ property: 'og:type', content: 'website' },
 	],
@@ -361,53 +380,106 @@ useHead({
 const mobileMenuOpen = ref(false);
 const currentYear = computed(() => new Date().getFullYear());
 
-// Categorized Skills - Unified Gold Accent Color
-const languages = [
-	{ name: 'JavaScript', color: 'accent' },
-	{ name: 'TypeScript', color: 'accent' },
-	{ name: 'Python', color: 'accent' },
-	{ name: 'HTML/CSS', color: 'accent' },
-	{ name: 'Solidity', color: 'accent' },
+// Theme state management
+const isDarkMode = computed(() => themeState.value.isDark);
+const themeState = useState('theme', () => ({
+	isDark: true,
+	isInitialized: false,
+}));
+
+// Logo switching logic
+const isLogoChanging = ref(false);
+const currentLogo = ref(brandLogoDark);
+
+// Watch for theme changes and update logo
+watch(
+	isDarkMode,
+	async (dark) => {
+		// Skip if not initialized or no actual change
+		if (!themeState.value.isInitialized) return;
+
+		// Add fade effect
+		isLogoChanging.value = true;
+
+		// Wait for fade out
+		await new Promise((resolve) => setTimeout(resolve, 150));
+
+		// Switch logo
+		currentLogo.value = dark ? brandLogoDark : brandLogo;
+
+		// Remove fade effect
+		await new Promise((resolve) => setTimeout(resolve, 50));
+		isLogoChanging.value = false;
+	},
+	{ immediate: false }
+);
+
+// Listen for theme changes from DarkModeToggle
+onMounted(() => {
+	if (import.meta.client) {
+		// Watch for theme state initialization
+		watch(
+			() => themeState.value.isInitialized,
+			(isInitialized) => {
+				if (isInitialized) {
+					// Set initial logo when theme is initialized
+					const isDark = themeState.value.isDark;
+					currentLogo.value = isDark ? brandLogoDark : brandLogo;
+				}
+			},
+			{ immediate: true }
+		);
+
+		window.addEventListener('themeChanged', (event) => {
+			// The theme state should already be updated by the watcher
+		});
+	}
+});
+
+const tagline = [
+	'a Full Stack Developer',
+	'a Software Engineer',
+	'a Web Developer',
+	'a Caffeinated Coder',
+	'an Algo Trader Enthusiast',
 ];
 
-const backend = [
-	{ name: 'Node.js', color: 'accent' },
-	{ name: 'Django', color: 'accent' },
-	{ name: 'Flask', color: 'accent' },
+// Categorized Skills
+const languageTech = [
+	{ name: 'JavaScript', icon: 'javascript' },
+	{ name: 'TypeScript', icon: 'typescript' },
+	{ name: 'Python', icon: 'python' },
+	{ name: 'Java', icon: 'java' },
+	{ name: 'HTML', icon: 'html5' },
+	{ name: 'CSS', icon: 'css3' },
+	{ name: 'Solidity', icon: 'solidity' },
 ];
 
-const frontend = [
-	{ name: 'React', color: 'accent' },
-	{ name: 'React Native', color: 'accent' },
-	{ name: 'Flutter', color: 'accent' },
-	{ name: 'Tailwind CSS', color: 'accent' },
-	{ name: 'MUI', color: 'accent' },
-	{ name: 'Ant Design', color: 'accent' },
+const frontendTech = [
+	{ name: 'Flutter', icon: 'flutter' },
+	{ name: 'React', icon: 'react' },
+	{ name: 'Material UI', icon: 'mui' },
+	{ name: 'Tailwind CSS', icon: 'tailwindcss' },
+	{ name: 'Ant Design', icon: 'antdesign' },
 ];
 
-const databases = [
-	{ name: 'MongoDB', color: 'accent' },
-	{ name: 'PostgreSQL', color: 'accent' },
-	{ name: 'MySQL', color: 'accent' },
+const backendTech = [
+	{ name: 'Node.js', icon: 'nodejs' },
+	{ name: 'Django', icon: 'django' },
+	{ name: 'PostgreSQL', icon: 'postgresql' },
+	{ name: 'MongoDB', icon: 'mongodb' },
+	{ name: 'MySQL', icon: 'mysql' },
 ];
 
-const cloud = [
-	{ name: 'AWS', color: 'accent' },
-	{ name: 'Alibaba Cloud', color: 'accent' },
-	{ name: 'Docker', color: 'accent' },
-	{ name: 'Firebase', color: 'accent' },
-	{ name: 'NGINX', color: 'accent' },
-];
-
-const dataAnalytics = [
-	{ name: 'Pandas', color: 'accent' },
-	{ name: 'NumPy', color: 'accent' },
-	{ name: 'Matplotlib', color: 'accent' },
-];
-
-const tools = [
-	{ name: 'Git', color: 'accent' },
-	{ name: 'Postman', color: 'accent' },
+const infraTech = [
+	{ name: 'AWS', icon: 'aws' },
+	{ name: 'Alibaba Cloud', icon: 'alibaba' },
+	{ name: 'Docker', icon: 'docker' },
+	{ name: 'Firebase', icon: 'firebase' },
+	{ name: 'NGINX', icon: 'nginx' },
+	{ name: 'Pandas', icon: 'pandas' },
+	{ name: 'NumPy', icon: 'numpy' },
+	{ name: 'Git', icon: 'git' },
 ];
 
 // Experience data
@@ -435,18 +507,76 @@ const experience = [
 </script>
 
 <style scoped>
-/* Mobile responsiveness - component specific only */
-@media (max-width: 768px) {
-	.tech-grid {
-		justify-content: center;
+/* Logo transition effects */
+.logo-container {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+}
+
+.logo-image {
+	height: 100%;
+	width: auto;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.logo-fade {
+	opacity: 0;
+	transform: scale(0.95);
+}
+
+/* Mobile Menu Transitions */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+	transition: all 0.2s ease;
+}
+
+.mobile-menu-enter-from {
+	opacity: 0;
+	transform: translateY(-10px);
+}
+
+.mobile-menu-leave-to {
+	opacity: 0;
+	transform: translateY(-10px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 1024px) {
+	.grid.lg\\:grid-cols-10 {
+		grid-template-columns: 1fr;
+		gap: 3rem;
 	}
 
+	.lg\\:col-span-7,
+	.lg\\:col-span-3 {
+		grid-column: span 1;
+	}
+
+	.lg\\:justify-end {
+		justify-content: center;
+	}
+}
+
+@media (max-width: 768px) {
 	.skill-category {
 		margin-bottom: 1.5rem;
 	}
 
 	.social-icons {
 		gap: 0.75rem;
+	}
+
+	.footer-bottom {
+		text-align: center;
+	}
+
+	.space-y-12 > :not([hidden]) ~ :not([hidden]) {
+		margin-top: 2rem;
+	}
+
+	.gap-16 {
+		gap: 2rem;
 	}
 
 	.contact-or::before {
@@ -456,6 +586,16 @@ const experience = [
 
 	.footer-bottom {
 		text-align: center;
+	}
+}
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
 </style>
